@@ -96,6 +96,8 @@ var Subtitles = mongoose.model('Subtitles', {
 
 // routes ======================================================================
 
+
+//TOM: Handle user authentication
 // // api ---------------------------------------------------------------------
 app.post('/api/auth', function(req, res) {
     var userId = req.body.userId;
@@ -175,6 +177,7 @@ app.post('/api/auth', function(req, res) {
     },2000);
 });
 
+//TOM: Handle the saving of a subtitle file.
 
 appHttp.post('/api/saveSrtFileForUser', jwt({secret : getJWTSecret()}), function(req, res) {
   console.log("userId: " + req.user.userId);
@@ -263,6 +266,8 @@ appHttp.post('/api/saveSrtFileForUser', jwt({secret : getJWTSecret()}), function
 
 });
 
+//TOM: user download subtitle file
+
 appHttp.get('/api/getLatestSubtitles/:hashCode', function(req, res){
   var hashCode = req.params.hashCode;
   var fileName;
@@ -298,6 +303,8 @@ appHttp.get('/api/getLatestSubtitles/:hashCode', function(req, res){
   console.log('starting download');
 });
 
+
+//TOM: get the video stream - should change here to make many optional comment files per one video.
 appHttp.get('/api/getLatestJsonSub/:videoId', function(req, res){
   var videoId = req.params.videoId;
   var gitVideoDir = fileSystemDir + getOutputVideoFolder(videoId);
@@ -353,6 +360,9 @@ cmd.get(
             baseDir = data;
         });
 
+process.on('uncaughtException', function (err) {
+    console.log(err);
+}); 
 
 // Private functions
 
@@ -456,6 +466,8 @@ function ticksToTimeString(ticks){
     return hourStr + ":" + minStr + ":" + secStr + milisecondStr;
 };
 
+
+//TOM: adds the new subtitles to the latest version on the server
 function mergeSubsToObject(req, latestJsonFilePath){
 
   newSubtitles = JSON.parse(req.body.txt);
@@ -592,6 +604,7 @@ function addCredits(creditsFilePath, userId, subObj){
   return subObjWithCredits;
 }
 
+//TOM: check if times are overlaping
 function isBeforeNoOverlap(firstSub, secondSub){
     return (firstSub.endTime < secondSub.startTime)
 }
