@@ -64,6 +64,19 @@
 				        	Can't see the video? <a href="https://support.google.com/chrome/answer/1342714?hl=en">click here</a>
 				        </div>
 
+
+	                    <select ng-model="filetype.val" name="dropdown_subtype">
+						  <option value="subtitles">Subtitles</option>
+						  <option value="remarks">Remarks</option>
+						</select>
+
+
+	                    <select ng-model="publicity.val" name="dropdown_publicity">
+						  <option value="public">Public</option>
+						  <option value="private">Private</option>
+						</select>
+
+
 				        <div class="padding-left-right padding-up-down">
 			        	    <button class="btn btn-primary" ng-click="keyPressedFromTextBox(0,4)">Save</button>
 				        </div>
@@ -123,6 +136,7 @@
 							</div>
 						</div>
     				</div> <!-- Close Video Player Col -->
+					<!-- use ng-include for this part????? -->
     				<div class="col-md-8" style="overflow-y: scroll; height:100%;"> <!-- Subtitles Col -->
 						<table class="table">
 						    <thead>
@@ -135,7 +149,7 @@
 						      </tr>
 						    </thead>
 						    <tbody>
-						      <tr ng-repeat="sub in subtitles track by $index" ng-class="validSubtitle(sub).length == 0 ? 'alert-success' : 'alert-danger'">
+						      <tr ng-if="publicity.val == 'public'" ng-repeat="sub in subtitles track by $index" ng-class="validSubtitle(sub).length == 0 ? 'alert-success' : 'alert-danger'">
 						      	<td>{{subtitles.length - $index}}</td>
 						        <td ng-click="jumpToTime(sub.startTime)" onmouseover="" style="cursor: pointer;">{{ticksToTimeString(sub.startTime, false)}}</td>
 						        <td>{{ticksToTimeString(sub.endTime, false)}}</td>
@@ -144,6 +158,9 @@
 						        	<input type="text" class="form-control" ng-trim="false" maxlength="80" ng-model="sub.txt" ng-click="subClick($index)" my-enter="keyPressedFromTextBox($index" >
 						        	{{validSubtitle(subtitles[$index])}}
 						        </td>
+						      </tr>
+						      <tr ng-if="publicity.val == 'private'" ng-repeat="sub in subtitles track by $index" ng-class="validSubtitle(sub).length == 0 ? 'alert-success' : 'alert-danger'">
+						      	<td>Now I'm private</td>
 						      </tr>
 						    </tbody>
 						 </table>

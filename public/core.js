@@ -1,9 +1,11 @@
 // Angular Code
 var app = angular.module('Tau-Subtitles', ['ngAnimate', 'ui.bootstrap']);
 
+//TOM: init the scope
 app.controller('subtitleTableController',function subtitleTableController($scope, $http, $location, $interval) {
 
 	var saveFunc;
+	//TOM: a function that runs every 5 minutes and saves the subtitles
     $scope.autoSave = function() {
       // Don't start a autoSave if we are already autoSaving
       if ( angular.isDefined(saveFunc) ) return;
@@ -61,8 +63,32 @@ app.controller('subtitleTableController',function subtitleTableController($scope
   		return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 	}
 
+	// //TOM: user upload subtitle file
+ //  	$scope.updateLatest = function(){
+	// 	$http.get("/api/getLatestJsonSub/" + $scope.videoId).then(function(response) {
+	//        	data = response.data;
+	//        	if(data == ""){
+	//        		$scope.subtitles = [];
+	//        	}
+	//        	else{
+	//        		$scope.subtitles = data;
+	//        	}
+
+	// 		if($scope.invalidSub != undefined){
+	// 			$scope.subtitles.splice(0, 0, $scope.invalidSub);
+	// 			$scope.addedIds[$scope.invalidSub.id] = true;
+	// 			$scope.invalidSub = undefined;
+	// 		}
+
+	//        	$scope.sortSubtitles(true);
+	//     });
+ //  	}
+ //  	$scope.speed = 1.0;
+ //  	$scope.currentIndex = 0;
+
+ //test
   	$scope.updateLatest = function(){
-		$http.get("/api/getLatestJsonSub/" + $scope.videoId).then(function(response) {
+		$http.get("/api/test_sutitles/").then(function(response) {
 	       	data = response.data;
 	       	if(data == ""){
 	       		$scope.subtitles = [];
@@ -83,6 +109,7 @@ app.controller('subtitleTableController',function subtitleTableController($scope
   	$scope.speed = 1.0;
   	$scope.currentIndex = 0;
 
+  	//TOM: return the value of a field in the URL.
   	$scope.getQueryVariable = function(variable) {
 	    var query = window.location.search.substring(1);
 	    var vars = query.split('&');
@@ -152,9 +179,13 @@ app.controller('subtitleTableController',function subtitleTableController($scope
 		return hourStr + ":" + minStr + ":" + secStr + milisecondStr;
 	};
 
+
+
+
 	$scope.tryToAuthenticate = function(_videoId){
 		var data = {userId:$scope.userId, userPass : $scope.userPass};
 
+		window.location = "http://localhost/subtitle.html?token=blablabla&id=blablabla";// TODO: remove this line
 		$http.post("/api/auth", data).success(function(data, status) {
 			$scope.userPass = "";
 			if (data.auth) {
@@ -171,6 +202,7 @@ app.controller('subtitleTableController',function subtitleTableController($scope
         });
 	}
 
+	//TOM: when a subtitle line is pressed we are moved to the starting time of that line.
 	$scope.subClick = function(index){
   		$scope.currentIndex = index;
 		$scope.handleLoop(index);
@@ -180,6 +212,7 @@ app.controller('subtitleTableController',function subtitleTableController($scope
 		jwplayer().seek(time);
 	}
 
+	//TOM: Press enter
 	$scope.addRow = function(i, position, lastWordSplitted){
 		if ($scope.subtitles[i].endTime == -1) {
 			$scope.subtitles[i].endTime = position;
@@ -209,6 +242,19 @@ app.controller('subtitleTableController',function subtitleTableController($scope
 		};
 
 	}
+
+	$scope.filetype = {
+		val: 'subtitles'
+	}
+
+	$scope.publicity = {
+		val: 'public'
+	}
+
+	// $scope.publicityChanged = function(publicity){
+	// 	alert("publicity:");
+	// }
+
 
 	$scope.keyPressedFromTextBox = function(i, caseNum){
 		var position = jwplayer().getPosition();

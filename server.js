@@ -329,6 +329,30 @@ appHttp.get('/api/getLatestJsonSub/:videoId', function(req, res){
   });
 });
 
+
+appHttp.get('/api/test_sutitles', function(req, res){
+  var latestJsonFilePath = "C:\\Users\\tom\\Desktop\\TAU\\solutions\\project\\TauSubtitles\\public\\Videos\\Martin.vtt";
+  console.log(process.cwd());
+
+  if (!fileExists(latestJsonFilePath)) { 
+    console.log('video latest file does not exist');
+    var subtitle = [{
+        id:guid(),
+        startTime:0,
+        endTime:-1,
+        txt:""
+    }];
+    // console.log("sent subtitle id: " + subtitle[0].id);
+    res.send(JSON.stringify(subtitle));
+    
+    return;
+  } 
+
+  fs.readJson(latestJsonFilePath, function(err, jsonObj) {
+      res.send(jsonObj);
+  });
+});
+
 // listen (start app with node server.js) ======================================
 portHttps = 443;
 portHttp = 80;
