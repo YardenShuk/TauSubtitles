@@ -387,7 +387,7 @@ appHttp.post('/api/test_video/metadata/:videoId', function (req, res) {
 	var videosJsonPath = __dirname + '\\DB\\Videos.json';
 
 	fs.readJson(videosJsonPath, function (err, jsonObj) {
-		var foundIndex = 0;
+		var foundIndex = undefined;
 
 		jsonObj.find(function (videoMetadata, index) {
 			if (videoMetadata.videoId === req.params.videoId) {
@@ -395,6 +395,11 @@ appHttp.post('/api/test_video/metadata/:videoId', function (req, res) {
 				return true;
 			}
 		});
+
+		if (foundIndex === undefined) {
+			foundIndex = jsonObj.length;
+			jsonObj.push({});
+		}
 
 		if (isPrivate) {
 			jsonObj[foundIndex][userId] = jsonObj[foundIndex][userId] ? jsonObj[foundIndex][userId] : {};

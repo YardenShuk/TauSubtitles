@@ -100,6 +100,12 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 			$scope.videoMetadata = response.data.videoMetadata;
 			$scope.userId = response.data.userId;
 
+			if (!$scope.videoMetadata) {
+				$scope.videoMetadata = {
+					videoId: $scope.videoId
+				};
+			}
+
 			$scope.subtitles = $scope.videoMetadata.subtitles ? $scope.videoMetadata.subtitles : [];
 			$scope.remarks = $scope.videoMetadata.remarks ? $scope.videoMetadata.remarks : [];
 
@@ -120,6 +126,10 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 				$scope.addedIds[$scope.invalidSub.id] = true;
 
 				$scope.invalidSub = undefined;
+			}
+
+			if ($scope.subtitles.length === 0) {
+				$scope.addRow();
 			}
 
 			$scope.sortSubtitles(true);
