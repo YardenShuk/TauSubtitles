@@ -89,6 +89,8 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 
 	//test
 
+	// $scope.searchSub = '';
+
 	$scope.publicityBgColor = {
 		backgroundColor: 'green'
 	};

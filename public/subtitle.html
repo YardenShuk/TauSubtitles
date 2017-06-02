@@ -148,6 +148,10 @@
 					ng-style="publicityBgColor">{{publicity.val.toUpperCase()}}</span>
 			</div>
 
+			<div class="search-box row col-md-5">
+				<input type="text" ng-model="searchSub.txt" class="form-control">
+			</div>
+
 			<table ng-if="!showingRemarks && publicity.val !== 'private'" class="table">
 				<thead>
 				<tr>
@@ -161,7 +165,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr ng-repeat="sub in subtitles track by $index"
+				<tr ng-repeat="sub in subtitles | filter:searchSub track by $index"
 				    ng-class="validSubtitle(sub).length == 0 ? 'alert-success' : 'alert-danger'">
 					<td>{{subtitles.length - $index}}</td>
 					<td ng-click="jumpToTime(sub.startTime)" onmouseover="" style="cursor: pointer;">
@@ -186,7 +190,7 @@
 						</button>
 					</td>
 				</tr>
-				<!--<tr ng-if="publicity.val == 'private'" ng-repeat="sub in subtitles track by $index"-->
+				<!--<tr ng-if="publicity.val == 'private'" ng-repeat="sub in subtitles | filter:searchSub track by $index"-->
 				    <!--ng-class="validSubtitle(sub).length == 0 ? 'alert-success' : 'alert-danger'">-->
 					<!--<td>Now I'm private</td>-->
 				<!--</tr>-->
@@ -206,7 +210,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr ng-repeat="sub in privatesubtitles track by $index"
+				<tr ng-repeat="sub in privatesubtitles | filter:searchSub track by $index"
 				    ng-class="validSubtitle(sub).length == 0 ? 'alert-success' : 'alert-danger'">
 					<td>{{privatesubtitles.length - $index}}</td>
 					<td ng-click="jumpToTime(sub.startTime)" onmouseover="" style="cursor: pointer;">
@@ -233,7 +237,7 @@
 						</button>
 					</td>
 				</tr>
-				<!--<tr ng-if="publicity.val == 'private'" ng-repeat="sub in privatesubtitles track by $index"-->
+				<!--<tr ng-if="publicity.val == 'private'" ng-repeat="sub in privatesubtitles | filter:searchSub track by $index"-->
 				<!--ng-class="validSubtitle(sub).length == 0 ? 'alert-success' : 'alert-danger'">-->
 				<!--<td>Now I'm private</td>-->
 				<!--</tr>-->
@@ -253,7 +257,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr ng-repeat="remark in remarks track by $index"
+				<tr ng-repeat="remark in remarks | filter:searchSub track by $index"
 				    ng-class="validSubtitle(remark).length == 0 ? 'alert-success' : 'alert-danger'">
 					<td>{{remarks.length - $index}}</td>
 					<td ng-click="jumpToTime(remark.startTime)" onmouseover="" style="cursor: pointer;">
@@ -281,7 +285,7 @@
 						</button>
 					</td>
 				</tr>
-				<!--<tr ng-if="publicity.val == 'private'" ng-repeat="remark in remarks track by $index"-->
+				<!--<tr ng-if="publicity.val == 'private'" ng-repeat="remark in remarks | filter:searchSub track by $index"-->
 				<!--ng-class="validSubtitle(remark).length == 0 ? 'alert-success' : 'alert-danger'">-->
 				<!--<td>Now I'm private</td>-->
 				<!--</tr>-->
@@ -301,7 +305,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr ng-repeat="remark in privateremarks track by $index"
+				<tr ng-repeat="remark in privateremarks | filter:searchSub track by $index"
 				    ng-class="validSubtitle(remark).length == 0 ? 'alert-success' : 'alert-danger'">
 					<td>{{privateremarks.length - $index}}</td>
 					<td ng-click="jumpToTime(remark.startTime)" onmouseover="" style="cursor: pointer;">
@@ -327,7 +331,7 @@
 						</button>
 					</td>
 				</tr>
-				<!--<tr ng-if="publicity.val == 'private'" ng-repeat="remark in privateremarks track by $index"-->
+				<!--<tr ng-if="publicity.val == 'private'" ng-repeat="remark in privateremarks | filter:searchSub track by $index"-->
 				<!--ng-class="validSubtitle(remark).length == 0 ? 'alert-success' : 'alert-danger'">-->
 				<!--<td>Now I'm private</td>-->
 				<!--</tr>-->
