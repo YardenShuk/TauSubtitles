@@ -67,13 +67,14 @@
 				</div>
 
 
-				<select ng-change="changeView()" ng-model="filetype.val" name="dropdown_subtype">
+				<select ng-change="changeView()" ng-model="filetype.val" name="dropdown_subtype" class="view-change">
 					<option value="subtitles">Subtitles</option>
 					<option value="remarks">Remarks</option>
 				</select>
 
 
-				<select ng-model="publicity.val" name="dropdown_publicity" ng-click="changePublicity(); publicityBgColor.backgroundColor = publicity.val === 'private' ? 'red' : 'green';">
+				<select ng-model="publicity.val" name="dropdown_publicity" class="publicity-change"
+				        ng-click="changePublicity(); publicityBgColor.backgroundColor = publicity.val === 'private' ? 'red' : 'green';">
 					<option value="public">Public</option>
 					<option value="private">Private</option>
 				</select>
@@ -194,8 +195,8 @@
 					</td>
 				</tr>
 				<!--<tr ng-if="publicity.val == 'private'" ng-repeat="sub in subtitles | filter:searchSub track by $index"-->
-				    <!--ng-class="validSubtitle(sub).length == 0 ? 'alert-success' : 'alert-danger'">-->
-					<!--<td>Now I'm private</td>-->
+				<!--ng-class="validSubtitle(sub).length == 0 ? 'alert-success' : 'alert-danger'">-->
+				<!--<td>Now I'm private</td>-->
 				<!--</tr>-->
 				</tbody>
 			</table>
@@ -232,11 +233,13 @@
 					<td onmouseover="" style="cursor: pointer;">
 						<button ng-click="vote(1, sub, privatesubtitles.length - $index)"
 						        id="upvote-{{privatesubtitles.length - $index}}"
-						        class="upvote privatesubtitles-vote-buttons-{{privatesubtitles.length - $index}} button btn">+
+						        class="upvote privatesubtitles-vote-buttons-{{privatesubtitles.length - $index}} button btn">
+							+
 						</button>
 						<button ng-click="vote(-1, sub, privatesubtitles.length - $index)"
 						        id="downvote-{{privatesubtitles.length - $index}}"
-						        class="downvote privatesubtitles-vote-buttons-{{privatesubtitles.length - $index}} button btn">-
+						        class="downvote privatesubtitles-vote-buttons-{{privatesubtitles.length - $index}} button btn">
+							-
 						</button>
 					</td>
 				</tr>
@@ -330,11 +333,14 @@
 					<td onmouseover="" style="cursor: pointer;">
 						<!--BAR - a vote button-->
 						<button ng-disabled="disableUpVote" ng-click="vote(1, remark, privateremarks.length - $index)"
-						        class="upvote privateremarks-vote-buttons-{{privateremarks.length - $index}} button btn">+
+						        class="upvote privateremarks-vote-buttons-{{privateremarks.length - $index}} button btn">
+							+
 						</button>
 						<!--BAR - a vote button-->
-						<button ng-disabled="disableDownVote" ng-click="vote(-1, remark, privateremarks.length - $index)"
-						        class="downvote privateremarks-vote-buttons-{{privateremarks.length - $index}} button btn">-
+						<button ng-disabled="disableDownVote"
+						        ng-click="vote(-1, remark, privateremarks.length - $index)"
+						        class="downvote privateremarks-vote-buttons-{{privateremarks.length - $index}} button btn">
+							-
 						</button>
 					</td>
 				</tr>
@@ -405,6 +411,7 @@
 	var httpUrl1 = "http" + videoUrl + "manifest.mpd";
 	var httpUrl2 = "http" + videoUrl + "playlist.m3u8";
 	var chaptersStr = '/Chapters/' + videoId + '/latestChapter.srt';
+	//	var chaptersStr = '/Chapters/PpgMH2SEOHTHgwHC2G6zlBkSN.srt';
 
 	if (navigator.userAgent.match(/android/i) != null) {
 		playerInstance.setup({
@@ -412,8 +419,17 @@
 				file: rtmpUrl,
 				image: imageUrl,
 				tracks: [{
-					file: chaptersStr,
-					kind: 'chapters'
+					file: '/root/SubtitlesRoot/hash/' + videoId + '/latest.srt',
+					label: 'public-subtitles'
+				}, {
+					file: '/root/SubtitlesRoot/hash/' + videoId + '/latest-remarks.srt',
+					label: 'public-remarks'
+				}, {
+					file: '/root/SubtitlesRoot/hash/' + videoId + '/userrr/latest.srt',
+					label: 'private-subtitles'
+				}, {
+					file: '/root/SubtitlesRoot/hash/' + videoId + '/userrr/latest-remarks.srt',
+					label: 'private-remarks'
 				}],
 				type: 'mp4',
 				primary: 'html5'
@@ -425,8 +441,17 @@
 				file: httpUrl1,
 				image: imageUrl,
 				tracks: [{
-					file: chaptersStr,
-					kind: 'chapters'
+					file: '/root/SubtitlesRoot/hash/' + videoId + '/latest.srt',
+					label: 'public-subtitles'
+				}, {
+					file: '/root/SubtitlesRoot/hash/' + videoId + '/latest-remarks.srt',
+					label: 'public-remarks'
+				}, {
+					file: '/root/SubtitlesRoot/hash/' + videoId + '/userrr/latest.srt',
+					label: 'private-subtitles'
+				}, {
+					file: '/root/SubtitlesRoot/hash/' + videoId + '/userrr/latest-remarks.srt',
+					label: 'private-remarks'
 				}],
 				autostart: 'false'
 			}],
@@ -451,7 +476,40 @@
 				width: "100%",
 				aspectratio: "16:9"
 			});
-		})
+		});
+
+		jwplayer().on('captionsChanged', function (currentTrack) {
+			console.log(currentTrack);
+			console.log(jwplayer().getCaptionsList());
+		});
+
+		function videoReloadOnViewChange() {
+			var viewValue = jQuery('.view-change')[0].value;
+			var publicityValue = jQuery('.publicity-change')[0].value;
+
+			var ccIndex = 0;
+
+			if (viewValue === 'remarks') {
+				if (publicityValue === 'public') {
+					ccIndex = 2;
+				}
+				else {
+					ccIndex = 4;
+				}
+			} else {
+				if (publicityValue === 'public') {
+					ccIndex = 1;
+				}
+				else {
+					ccIndex = 3;
+				}
+			}
+
+			jwplayer().setCurrentCaptions(ccIndex);
+		}
+
+		jQuery('.view-change').change(videoReloadOnViewChange);
+		jQuery('.publicity-change').change(videoReloadOnViewChange);
 
 		var trident = !!navigator.userAgent.match(/Trident\/7.0/);
 		var net = !!navigator.userAgent.match(/.NET4.0E/);

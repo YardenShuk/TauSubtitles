@@ -202,8 +202,9 @@ appHttp.post('/api/saveSrtFileForUser', function (req, res) {
 	var latestJsonFilePath = path.join(gitVideoDir, privateDirectory, videoId + fileExtension + "_latest.json");
 	var creditsFilePath = path.join(gitVideoDir, privateDirectory, videoId + +fileExtension + "_credits.json");
 	var randString = randomstring.generate(25);
-	var srtFilePath = path.join(latestHashFolder, privateDirectory, randString + fileExtension + ".srt");
-	var txtFilePath = path.join(latestHashFolder, privateDirectory, randString + fileExtension + "_plain.txt");
+	var srtFilePath = path.join(latestHashFolder, videoId, privateDirectory, randString + fileExtension + ".srt");
+	var latestSrtFilePath = path.join(latestHashFolder, videoId, privateDirectory, 'latest' + fileExtension + ".srt");
+	var txtFilePath = path.join(latestHashFolder, videoId, privateDirectory, randString + fileExtension + "_plain.txt");
 	var chapterFilePath = path.join(publicChaptersDir + videoId, privateDirectory, "latestChapter" + fileExtension + ".srt");
 
 	var subObj = mergeSubsToObject(req, latestJsonFilePath);
@@ -236,7 +237,7 @@ appHttp.post('/api/saveSrtFileForUser', function (req, res) {
 					cmd.get(
 						'cd ' + gitVideoDir + '&& git add . && git commit -am "commiting in the name of:' + userId + '"',
 						function (data) {
-							console.log('git cmd finished : ', data)
+							console.log('git cmd finished : ', data);
 
 							fs.writeFile(latestJsonFilePath, JSON.stringify(subObj), function (err) {
 								if (err) {
@@ -249,6 +250,17 @@ appHttp.post('/api/saveSrtFileForUser', function (req, res) {
 							});
 						}
 					);
+				});
+			});
+
+			// BAR - added latest srt file and not just chapters like there was before.
+			fs.createFile(latestSrtFilePath, function (err) {
+				fs.writeFile(latestSrtFilePath, generateSrtFile(subObjWithCredits, false), function (err) {
+					if (err) {
+						return console.log(err);
+					}
+
+					console.log("Latest SRT file was saved");
 				});
 			});
 

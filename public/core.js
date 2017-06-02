@@ -104,6 +104,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 		$http.get('/api/test_video/metadata/' + $scope.videoId).then(function (response) {
 			$scope.videoMetadata = response.data.videoMetadata;
 			$scope.userId = response.data.userId;
+			window.userId = $scope.userId;
 
 			if (!$scope.videoMetadata) {
 				$scope.videoMetadata = {
