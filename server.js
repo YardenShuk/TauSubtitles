@@ -198,12 +198,12 @@ appHttp.post('/api/saveSrtFileForUser', function (req, res) {
 
 	var dir = fileSystemDir + getOutputFilePath(userId, videoId);
 	var gitVideoDir = fileSystemDir + getOutputVideoFolder(videoId);
-	var jsonFilePath = path.join(dir, userId + ".json");
-	var latestJsonFilePath = path.join(gitVideoDir, videoId + "_latest.json");
-	var creditsFilePath = path.join(gitVideoDir, videoId + "_credits.json");
+	var jsonFilePath = path.join(dir, privateDirectory, userId + fileExtension + ".json");
+	var latestJsonFilePath = path.join(gitVideoDir, privateDirectory, videoId + fileExtension + "_latest.json");
+	var creditsFilePath = path.join(gitVideoDir, privateDirectory, videoId + +fileExtension + "_credits.json");
 	var randString = randomstring.generate(25);
-	var srtFilePath = path.join(latestHashFolder, randString + fileExtension + ".srt");
-	var txtFilePath = path.join(latestHashFolder, randString + fileExtension + "_plain.txt");
+	var srtFilePath = path.join(latestHashFolder, privateDirectory, randString + fileExtension + ".srt");
+	var txtFilePath = path.join(latestHashFolder, privateDirectory, randString + fileExtension + "_plain.txt");
 	var chapterFilePath = path.join(publicChaptersDir + videoId, privateDirectory, "latestChapter" + fileExtension + ".srt");
 
 	var subObj = mergeSubsToObject(req, latestJsonFilePath);
