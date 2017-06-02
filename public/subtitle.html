@@ -372,158 +372,160 @@
 	}
 
 	var videoId = getQueryVariable("id");
-	var userId = getQueryVariable("user");
+	jQuery.get('/api/test_video/user', function(response) {
 
-	var getVideoUrlFromParam = function (videoId) {
-		if (!videoId) {
-			return "";
+		var userId = response.userId;
+
+		var getVideoUrlFromParam = function (videoId) {
+			if (!videoId) {
+				return "";
+			}
+
+			var baseUrl = "://vod.tau.ac.il:80/Courses/_definst_/mp4:";
+			var part1 = videoId.substring(0, 4);
+			var part2 = videoId.substring(4, 8);
+			var part3 = videoId.substring(8, 10);
+			var part4 = videoId.substring(10, 15);
+			var part5 = videoId.substring(15, 20);
+
+			return baseUrl + part1 + "/" + part2 + "/" + part1 + part2 + part3 + "-" + part4 + "-" + part5 + ".mp4/";
 		}
 
-		var baseUrl = "://vod.tau.ac.il:80/Courses/_definst_/mp4:";
-		var part1 = videoId.substring(0, 4);
-		var part2 = videoId.substring(4, 8);
-		var part3 = videoId.substring(8, 10);
-		var part4 = videoId.substring(10, 15);
-		var part5 = videoId.substring(15, 20);
+		var getImageUrlFromParam = function (videoId) {
+			if (!videoId) {
+				return "";
+			}
 
-		return baseUrl + part1 + "/" + part2 + "/" + part1 + part2 + part3 + "-" + part4 + "-" + part5 + ".mp4/";
-	}
+			var baseUrl = "http://video.tau.ac.il/files/";
+			var part1 = videoId.substring(0, 4);
+			var part2 = videoId.substring(4, 8);
+			var part3 = videoId.substring(8, 10);
+			var part4 = videoId.substring(10, 15);
+			var part5 = videoId.substring(15, 20);
 
-	var getImageUrlFromParam = function (videoId) {
-		if (!videoId) {
-			return "";
+			return baseUrl + part1 + "/" + part2 + "/" + part1 + part2 + part3 + "-" + part4 + "-" + part5 + ".jpg";
 		}
 
-		var baseUrl = "http://video.tau.ac.il/files/";
-		var part1 = videoId.substring(0, 4);
-		var part2 = videoId.substring(4, 8);
-		var part3 = videoId.substring(8, 10);
-		var part4 = videoId.substring(10, 15);
-		var part5 = videoId.substring(15, 20);
+		var videoUrl = getVideoUrlFromParam(videoId);
+		var imageUrl = getImageUrlFromParam(videoId);
 
-		return baseUrl + part1 + "/" + part2 + "/" + part1 + part2 + part3 + "-" + part4 + "-" + part5 + ".jpg";
-	}
+		var rtmpUrl = "rtmp" + videoUrl + "playlist.m3u8";
+		var httpUrl1 = "http" + videoUrl + "manifest.mpd";
+		var httpUrl2 = "http" + videoUrl + "playlist.m3u8";
+		var chaptersStr = '/Chapters/' + videoId + '/latestChapter.srt';
 
-	var videoUrl = getVideoUrlFromParam(videoId);
-	var imageUrl = getImageUrlFromParam(videoId);
-
-	var rtmpUrl = "rtmp" + videoUrl + "playlist.m3u8";
-	var httpUrl1 = "http" + videoUrl + "manifest.mpd";
-	var httpUrl2 = "http" + videoUrl + "playlist.m3u8";
-	var chaptersStr = '/Chapters/' + videoId + '/latestChapter.srt';
-	//	var chaptersStr = '/Chapters/PpgMH2SEOHTHgwHC2G6zlBkSN.srt';
-
-	if (navigator.userAgent.match(/android/i) != null) {
-		playerInstance.setup({
-			playlist: [{
-				file: rtmpUrl,
-				image: imageUrl,
-				tracks: [{
-					file: '/root/SubtitlesRoot/hash/' + videoId + '/latest.srt',
-					label: 'public-subtitles'
-				}, {
-					file: '/root/SubtitlesRoot/hash/' + videoId + '/latest-remarks.srt',
-					label: 'public-remarks'
-				}, {
-					file: '/root/SubtitlesRoot/hash/' + videoId + '/userrr/latest.srt',
-					label: 'private-subtitles'
-				}, {
-					file: '/root/SubtitlesRoot/hash/' + videoId + '/userrr/latest-remarks.srt',
-					label: 'private-remarks'
-				}],
-				type: 'mp4',
-				primary: 'html5'
-			}]
-		});
-	} else {
-		playerInstance.setup({
-			playlist: [{
-				file: httpUrl1,
-				image: imageUrl,
-				tracks: [{
-					file: '/root/SubtitlesRoot/hash/' + videoId + '/latest.srt',
-					label: 'public-subtitles'
-				}, {
-					file: '/root/SubtitlesRoot/hash/' + videoId + '/latest-remarks.srt',
-					label: 'public-remarks'
-				}, {
-					file: '/root/SubtitlesRoot/hash/' + videoId + '/userrr/latest.srt',
-					label: 'private-subtitles'
-				}, {
-					file: '/root/SubtitlesRoot/hash/' + videoId + '/userrr/latest-remarks.srt',
-					label: 'private-remarks'
-				}],
-				autostart: 'false'
-			}],
-			width: "100%",
-			aspectratio: "16:9"
-		});
-
-		jQuery('.reloadMovie').on('click', function () {
-			playerInstance.remove();
+		if (navigator.userAgent.match(/android/i) != null) {
 			playerInstance.setup({
 				playlist: [{
-					file: httpUrl2,
+					file: rtmpUrl,
 					image: imageUrl,
 					tracks: [{
-						file: chaptersStr,
-						kind: 'chapters'
+						file: '/root/SubtitlesRoot/hash/' + videoId + '/latest.srt',
+						label: 'public-subtitles'
+					}, {
+						file: '/root/SubtitlesRoot/hash/' + videoId + '/latest-remarks.srt',
+						label: 'public-remarks'
+					}, {
+						file: '/root/SubtitlesRoot/hash/' + videoId + '/' + userId + '/latest.srt',
+						label: 'private-subtitles'
+					}, {
+						file: '/root/SubtitlesRoot/hash/' + videoId + '/' + userId + '/latest-remarks.srt',
+						label: 'private-remarks'
 					}],
-					primary: 'html5',
-					autostart: 'false',
-					controls: '1'
+					type: 'mp4',
+					primary: 'html5'
+				}]
+			});
+		} else {
+			playerInstance.setup({
+				playlist: [{
+					file: httpUrl1,
+					image: imageUrl,
+					tracks: [{
+						file: '/root/SubtitlesRoot/hash/' + videoId + '/latest.srt',
+						label: 'public-subtitles'
+					}, {
+						file: '/root/SubtitlesRoot/hash/' + videoId + '/latest-remarks.srt',
+						label: 'public-remarks'
+					}, {
+						file: '/root/SubtitlesRoot/hash/' + videoId + '/' + userId + '/latest.srt',
+						label: 'private-subtitles'
+					}, {
+						file: '/root/SubtitlesRoot/hash/' + videoId + '/' + userId + '/latest-remarks.srt',
+						label: 'private-remarks'
+					}],
+					autostart: 'false'
 				}],
 				width: "100%",
 				aspectratio: "16:9"
 			});
-		});
 
-		jwplayer().on('captionsChanged', function (currentTrack) {
-			console.log(currentTrack);
-			console.log(jwplayer().getCaptionsList());
-		});
+			jQuery('.reloadMovie').on('click', function () {
+				playerInstance.remove();
+				playerInstance.setup({
+					playlist: [{
+						file: httpUrl2,
+						image: imageUrl,
+						tracks: [{
+							file: chaptersStr,
+							kind: 'chapters'
+						}],
+						primary: 'html5',
+						autostart: 'false',
+						controls: '1'
+					}],
+					width: "100%",
+					aspectratio: "16:9"
+				});
+			});
 
-		function videoReloadOnViewChange() {
-			var viewValue = jQuery('.view-change')[0].value;
-			var publicityValue = jQuery('.publicity-change')[0].value;
+			jwplayer().on('captionsChanged', function (currentTrack) {
+				console.log(currentTrack);
+				console.log(jwplayer().getCaptionsList());
+			});
 
-			var ccIndex = 0;
+			function videoReloadOnViewChange() {
+				var viewValue = jQuery('.view-change')[0].value;
+				var publicityValue = jQuery('.publicity-change')[0].value;
 
-			if (viewValue === 'remarks') {
-				if (publicityValue === 'public') {
-					ccIndex = 2;
+				var ccIndex = 0;
+
+				if (viewValue === 'remarks') {
+					if (publicityValue === 'public') {
+						ccIndex = 2;
+					}
+					else {
+						ccIndex = 4;
+					}
+				} else {
+					if (publicityValue === 'public') {
+						ccIndex = 1;
+					}
+					else {
+						ccIndex = 3;
+					}
 				}
-				else {
-					ccIndex = 4;
-				}
-			} else {
-				if (publicityValue === 'public') {
-					ccIndex = 1;
-				}
-				else {
-					ccIndex = 3;
-				}
+
+				jwplayer().setCurrentCaptions(ccIndex);
 			}
 
-			jwplayer().setCurrentCaptions(ccIndex);
+			jQuery('.view-change').change(videoReloadOnViewChange);
+			jQuery('.publicity-change').change(videoReloadOnViewChange);
+
+			var trident = !!navigator.userAgent.match(/Trident\/7.0/);
+			var net = !!navigator.userAgent.match(/.NET4.0E/);
+			var IE11 = trident && net;
+			var IEold = ( navigator.userAgent.match(/MSIE/i) ? true : false );
+			var theVideo;
+			jwplayer().on('ready', function () {
+				theVideo = document.querySelector('video');
+				theVideo.defaultPlaybackRate = 1.0;
+				theVideo.playbackRate = 1.0;
+				if (jwplayer().getRenderingMode() == "flash") {
+					return;
+				}
+			});
 		}
-
-		jQuery('.view-change').change(videoReloadOnViewChange);
-		jQuery('.publicity-change').change(videoReloadOnViewChange);
-
-		var trident = !!navigator.userAgent.match(/Trident\/7.0/);
-		var net = !!navigator.userAgent.match(/.NET4.0E/);
-		var IE11 = trident && net;
-		var IEold = ( navigator.userAgent.match(/MSIE/i) ? true : false );
-		var theVideo;
-		jwplayer().on('ready', function () {
-			theVideo = document.querySelector('video');
-			theVideo.defaultPlaybackRate = 1.0;
-			theVideo.playbackRate = 1.0;
-			if (jwplayer().getRenderingMode() == "flash") {
-				return;
-			}
 		});
-	}
 
 </script>

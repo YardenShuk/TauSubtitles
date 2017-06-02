@@ -374,6 +374,12 @@ appHttp.get('/api/test_subtitles', function (req, res) {
 	});
 });
 
+appHttp.get('/api/test_video/user', function(req,res){
+	// TODO: BAR -> Change to req.user.userId
+	res.send({userId: 'userrr'});
+	// res.send({userId: req.user.userId});
+});
+
 // BAR - new API call - returns the metadata from the DB (you can see the data on Videos.json
 appHttp.get('/api/test_video/metadata/:videoId', function (req, res) {
 	var videosJsonPath = __dirname + '/DB/Videos.json';
