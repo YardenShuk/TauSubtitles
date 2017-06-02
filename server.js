@@ -7,6 +7,7 @@ var jwt_sign = require('jsonwebtoken');
 
 var https = require('https');
 var http = require('http');
+// TODO: BAR -> Fix ../etc...
 var privateKey = fs.readFileSync('./../../../etc/pki/tls/private/localhost.key', 'utf8');
 var certificate = fs.readFileSync('./../../../etc/pki/tls/certs/localhost.crt', 'utf8');
 var cauth = fs.readFileSync('./../../../etc/pki/tls/certs/ca-bundle.trust.crt', 'utf8');
