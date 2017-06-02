@@ -144,14 +144,17 @@
 		<!-- use ng-include for this part????? -->
 
 		<div class="col-md-8" style="overflow-y: scroll; height:100%;">
+			<!--BAR - title for the user to understand what he's editing right now - public/private/subtitles/remarks-->
 			<div class="title"><span>{{filetype.val.toUpperCase()}}</span> / <span
 					ng-style="publicityBgColor">{{publicity.val.toUpperCase()}}</span>
 			</div>
 
+			<!--BAR - Search box-->
 			<div class="search-box row col-md-5">
 				<input type="text" ng-model="searchSub.txt" class="form-control">
 			</div>
 
+			<!--BAR - Note we have 4 tables cuz of POC code :)-->
 			<table ng-if="!showingRemarks && publicity.val !== 'private'" class="table">
 				<thead>
 				<tr>
@@ -275,10 +278,12 @@
 					</td>
 					<td>{{remark.totalVotes}}</td>
 					<td onmouseover="" style="cursor: pointer;">
+						<!--BAR - a vote button-->
 						<button ng-disabled="disableUpVote" ng-click="vote(1, remark, remarks.length - $index)"
 						        id="upvote-{{remarks.length - $index}}"
 						        class="upvote remarks-vote-buttons-{{remarks.length - $index}} button btn">+
 						</button>
+						<!--BAR - a vote button-->
 						<button ng-disabled="disableDownVote" ng-click="vote(-1, remark, remarks.length - $index)"
 						        id="downvote-{{remarks.length - $index}}"
 						        class="downvote remarks-vote-buttons-{{remarks.length - $index}} button btn">-
@@ -323,9 +328,11 @@
 					</td>
 					<td>{{remark.totalVotes}}</td>
 					<td onmouseover="" style="cursor: pointer;">
+						<!--BAR - a vote button-->
 						<button ng-disabled="disableUpVote" ng-click="vote(1, remark, privateremarks.length - $index)"
 						        class="upvote privateremarks-vote-buttons-{{privateremarks.length - $index}} button btn">+
 						</button>
+						<!--BAR - a vote button-->
 						<button ng-disabled="disableDownVote" ng-click="vote(-1, remark, privateremarks.length - $index)"
 						        class="downvote privateremarks-vote-buttons-{{privateremarks.length - $index}} button btn">-
 						</button>

@@ -176,6 +176,7 @@ app.post('/api/auth', function (req, res) {
 
 //TOM: Handle the saving of a subtitle file.
 
+// TODO: BAR -> return the jwt secret!
 // appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function (req, res) {
 appHttp.post('/api/saveSrtFileForUser', function (req, res) {
 	var userId = 'userrr';
@@ -184,6 +185,7 @@ appHttp.post('/api/saveSrtFileForUser', function (req, res) {
 	// console.log("userId: " + req.user.userId);
 	// var userId = req.user.userId;
 
+	// BAR - some new flags of private and file type (and saving them accordingly
 	var isPrivate = req.body.private;
 	var fileType = req.body.fileType;
 	var privateDirectory = isPrivate ? userId : '';
@@ -360,6 +362,7 @@ appHttp.get('/api/test_subtitles', function (req, res) {
 	});
 });
 
+// BAR - new API call - returns the metadata from the DB (you can see the data on Videos.json
 appHttp.get('/api/test_video/metadata/:videoId', function (req, res) {
 	var videosJsonPath = __dirname + '/DB/Videos.json';
 
@@ -375,6 +378,7 @@ appHttp.get('/api/test_video/metadata/:videoId', function (req, res) {
 	});
 });
 
+// BAR - new API call - setting new metadata on save. Saved by a few flags - private and fileType.
 appHttp.post('/api/test_video/metadata/:videoId', function (req, res) {
 	var keyToUpdate = req.body.key;
 	var value = req.body.value;
