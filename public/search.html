@@ -59,21 +59,25 @@
 			<div class="row">
 				<div class="search-title">Search everywhere!</div>
 				<!--BAR - Search box-->
-				<div class="search-box row col-md-5">
-					<input type="text" ng-model="searchText" class="form-control">
-				</div>
-				<!--BAR - Filtering flags-->
-				<select ng-model="fileType" name="dropdown_subtype" class="view-change search-flag">
-					<option value=""></option>
-					<option value="subtitles">Subtitles</option>
-					<option value="remarks">Remarks</option>
-				</select>
-				<select ng-model="publicity" name="dropdown_publicity" class="publicity-change search-flag">
-					<option value=""></option>
-					<option value="public">Public</option>
-					<option value="private">Private</option>
-				</select>
-				<button class="search-button button btn btn-primary" ng-click="search()">SEARCH</button>
+				<form>
+					<div class="search-box row col-md-5">
+						<input type="text" ng-model="searchText" class="form-control">
+					</div>
+					<!--BAR - Filtering flags-->
+					<label class="search-flags-labels">Type</label>
+					<select ng-model="fileType" name="dropdown_subtype" class="view-change search-flag">
+						<option value=""></option>
+						<option value="subtitles">Subtitles</option>
+						<option value="remarks">Remarks</option>
+					</select>
+					<label class="search-flags-labels">Publicity</label>
+					<select ng-model="publicity" name="dropdown_publicity" class="publicity-change search-flag">
+						<option value=""></option>
+						<option value="public">Public</option>
+						<option value="private">Private</option>
+					</select>
+					<button class="search-button button btn btn-primary" ng-click="search()">SEARCH</button>
+				</form>
 			</div>
 
 			<!--BAR - Search results table-->

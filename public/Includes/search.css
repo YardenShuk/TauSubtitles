@@ -8,3 +8,12 @@
     font-weight: 700;
     font-family: sans-serif;
 }
+
+.search-flags-labels {
+    margin-left: 15px
+}
+
+.search-button {
+    vertical-align: super;
+    margin-left: 20px;
+}
