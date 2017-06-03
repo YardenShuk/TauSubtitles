@@ -79,6 +79,13 @@
 					<option value="private">Private</option>
 				</select>
 
+				<div class="search-redirect">
+					<a href="search.html">
+						<button class="button btn btn-success pull-right"><span style="color:darkred">New!</span> Search
+							Everywhere
+						</button>
+					</a>
+				</div>
 
 				<div class="padding-left-right padding-up-down">
 					<button class="btn btn-primary" ng-click="keyPressedFromTextBox(0,4)">Save</button>
@@ -372,7 +379,7 @@
 	}
 
 	var videoId = getQueryVariable("id");
-	jQuery.get('/api/test_video/user', function(response) {
+	jQuery.get('/api/test_video/user', function (response) {
 
 		var userId = response.userId;
 
@@ -526,6 +533,6 @@
 				}
 			});
 		}
-		});
+	});
 
 </script>

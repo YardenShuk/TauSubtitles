@@ -375,7 +375,7 @@ appHttp.get('/api/test_subtitles', function (req, res) {
 	});
 });
 
-appHttp.get('/api/test_video/user', function(req,res){
+appHttp.get('/api/test_video/user', function (req, res) {
 	// TODO: BAR -> Change to req.user.userId
 	res.send({userId: 'userrr'});
 	// res.send({userId: req.user.userId});
@@ -440,6 +440,127 @@ appHttp.post('/api/test_video/metadata/:videoId', function (req, res) {
 			}
 		});
 	});
+});
+
+// BAR - search api - getting all search results, by flags, etc...
+appHttp.post('/api/search', function (req, res) {
+	var searchText = req.body.searchText;
+	var fileType = req.body.fileType;
+	var publicity = req.body.publicity ? req.body.publicity : 'any';
+
+	if (!searchText) {
+		res.status(400).send('You should pass search text');
+	}
+	else if (!(!fileType || fileType === 'subtitles' || fileType === 'remarks')) {
+		res.status(400).send('File type should be sent as \'subtitles\' or \'remarks\' or not sent at all');
+	} else {
+
+		// TODO: BAR -> Change to req.user.userId (When integrating to real env.)
+		var userId = 'userrr';
+		// var userId = req.user.userId;
+
+		var videosJsonPath = __dirname + '\\DB\\Videos.json';
+
+		function mapData(relevantData, videoId, fileType, publicity) {
+			return relevantData.map(function (data) {
+				return {
+					txt: data.txt,
+					videoId: videoId,
+					startTime: data.startTime,
+					endTime: data.endTime,
+					totalVotes: data.totalVotes,
+					type: fileType,
+					publicity: publicity
+				};
+			})
+		}
+
+		fs.readJson(videosJsonPath, function (err, allVideosData) {
+			if (err) {
+				res.status(500).send('There was an error accessing the DB');
+			}
+			else {
+				var searchResults = [];
+
+				allVideosData.forEach(function (videoMetadata) {
+					var relevantSubtitles = [];
+					var relevantRemarks = [];
+					var privateRelevantSubtitles = [];
+					var privateRelevantRemarks = [];
+
+					if (!fileType) {
+						if (publicity === 'any') {
+							relevantSubtitles = getData(videoMetadata, 'subtitles');
+							relevantRemarks = getData(videoMetadata, 'remarks');
+							privateRelevantSubtitles = getPrivateData(videoMetadata, userId, 'subtitles');
+							privateRelevantRemarks = getPrivateData(videoMetadata, userId, 'remarks');
+						}
+						else {
+							if (publicity === 'private') {
+								privateRelevantSubtitles = getPrivateData(videoMetadata, userId, 'subtitles');
+								privateRelevantRemarks = getPrivateData(videoMetadata, userId, 'remarks');
+							} else {
+								relevantSubtitles = getData(videoMetadata, 'subtitles');
+								relevantRemarks = getData(videoMetadata, 'remarks');
+							}
+						}
+					} else {
+						if (publicity === 'any') {
+							if (fileType === 'subtitles') {
+								relevantSubtitles = getData(videoMetadata, fileType);
+								privateRelevantSubtitles = getPrivateData(videoMetadata, userId, fileType);
+							} else {
+								relevantRemarks = getData(videoMetadata, fileType);
+								privateRelevantRemarks = getPrivateData(videoMetadata, userId, fileType);
+							}
+						}
+						else {
+							if (publicity === 'private') {
+								if (fileType === 'subtitles') {
+									privateRelevantSubtitles = getPrivateData(videoMetadata, userId, fileType);
+								} else {
+									privateRelevantRemarks = getPrivateData(videoMetadata, userId, 'remarks');
+								}
+							}
+							else {
+								if (fileType === 'subtitles') {
+									relevantSubtitles = getData(videoMetadata, fileType);
+
+								} else {
+									relevantRemarks = getData(videoMetadata, fileType);
+								}
+							}
+						}
+					}
+
+					relevantSubtitles = mapData(relevantSubtitles, videoMetadata.videoId, 'public', 'subtitles');
+					relevantRemarks = mapData(relevantRemarks, videoMetadata.videoId, 'public', 'remarks');
+					privateRelevantSubtitles = mapData(privateRelevantSubtitles, videoMetadata.videoId, 'private', 'subtitles');
+					privateRelevantRemarks = mapData(privateRelevantRemarks, videoMetadata.videoId, 'private', 'remarks');
+
+					searchResults = searchResults.concat(relevantSubtitles, relevantRemarks, privateRelevantSubtitles, privateRelevantRemarks);
+				});
+
+				res.status(200).send(searchResults);
+			}
+		});
+	}
+
+	function getData(videoMetadata, dataType) {
+		if (videoMetadata[dataType]) {
+			return videoMetadata[dataType].filter(function (data) {
+				return data.txt.indexOf(searchText) >= 0;
+			});
+		}
+
+		return [];
+	}
+
+	function getPrivateData(videoMetadata, userId, dataType) {
+		if (videoMetadata[userId]) {
+			return getData(videoMetadata[userId], dataType);
+		}
+	}
 });
 
 // listen (start app with node server.js) ======================================
