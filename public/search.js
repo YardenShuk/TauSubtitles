@@ -7,6 +7,8 @@ app.controller('searchFormController', function subtitleTableController($scope, 
 	$scope.fileType = '';
 	$scope.publicity = '';
 	$scope.searchText = '';
+	$scope.token = $scope.getQueryVariable("token");
+	$http.defaults.headers.common['Authorization'] = "Bearer " + $scope.token;
 
 	$scope.search = function () {
 		if (!$scope.searchText) {

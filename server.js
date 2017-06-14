@@ -375,14 +375,14 @@ appHttp.get('/api/test_subtitles', function (req, res) {
 	});
 });
 
-appHttp.get('/api/test_video/user', function (req, res) {
+appHttp.get('/api/test_video/user', jwt({secret: getJWTSecret()}), function (req, res) {
 	// TODO: JORDAN -> Change to req.user.userId
 	//res.send({userId: 'userrr'});
 	res.send({userId: req.user.userId});
 });
 
 // JORDAN - new API call - returns the metadata from the DB (you can see the data on Videos.json
-appHttp.get('/api/test_video/metadata/:videoId', function (req, res) {
+appHttp.get('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}), function (req, res) {
 	var videosJsonPath = __dirname + '/DB/Videos.json';
 
 	fs.readJson(videosJsonPath, function (err, jsonObj) {
@@ -392,22 +392,22 @@ appHttp.get('/api/test_video/metadata/:videoId', function (req, res) {
 			}),
 			// TODO: JORDAN -> Change to req.user.userId (When integrating to real env.)
 			//userId: 'userrr'
-			 userId: req.user.userId
+			userId: req.user.userId
 		});
 	});
 });
 
 // JORDAN - new API call - setting new metadata on save. Saved by a few flags - private and fileType.
-appHttp.post('/api/test_video/metadata/:videoId', function (req, res) {
+appHttp.post('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}), function (req, res) {
 	var keyToUpdate = req.body.key;
 	var value = req.body.value;
 	var isPrivate = req.body.private;
 
 	// TODO: JORDAN -> Change to req.user.userId (When integrating to real env.)
 	//var userId = 'userrr';
-	 var userId = req.user.userId;
+	var userId = req.user.userId;
 
-	var videosJsonPath = __dirname + '\\DB\\Videos.json';
+	var videosJsonPath = __dirname + '/DB/Videos.json';
 
 	fs.readJson(videosJsonPath, function (err, jsonObj) {
 		var foundIndex = undefined;
@@ -443,7 +443,7 @@ appHttp.post('/api/test_video/metadata/:videoId', function (req, res) {
 });
 
 // JORDAN - search api - getting all search results, by flags, etc...
-appHttp.post('/api/search', function (req, res) {
+appHttp.post('/api/search', jwt({secret: getJWTSecret()}), function (req, res) {
 	var searchText = req.body.searchText;
 	var fileType = req.body.fileType;
 	var publicity = req.body.publicity ? req.body.publicity : 'any';
@@ -457,9 +457,9 @@ appHttp.post('/api/search', function (req, res) {
 
 		// TODO: JORDAN -> Change to req.user.userId (When integrating to real env.)
 		//var userId = 'userrr';
-		 var userId = req.user.userId;
+		var userId = req.user.userId;
 
-		var videosJsonPath = __dirname + '\\DB\\Videos.json';
+		var videosJsonPath = __dirname + '/DB/Videos.json';
 
 		function mapData(relevantData, videoId, fileType, publicity) {
 			return relevantData.map(function (data) {

@@ -364,6 +364,11 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 
 	}
 
+	$scope.redirectToSearch = function () {
+		//TODO: Change to lool instead of looldev
+		window.location = "http://looldev.tau.ac.il/search.html?token=" + $scope.token;
+	}
+
 	$scope.filetype = {
 		val: 'subtitles'
 	}
