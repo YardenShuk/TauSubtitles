@@ -32,8 +32,8 @@ var fs = require('fs-extra');
 var path = require('path');
 var cmd = require('node-cmd');
 var baseDir = "";
-var fileSystemDir = "/root/SubtitlesRoot/";
-var publicChaptersDir = "/root/main/FinalProject/public/Chapters/"
+var fileSystemDir = "./public/SubtitlesRoot/";
+var publicChaptersDir = "./public/main/FinalProject/public/Chapters/"
 var latestHashFolder = fileSystemDir + "/hash/";
 var assert = require('assert');
 
@@ -533,10 +533,10 @@ appHttp.post('/api/search', jwt({secret: getJWTSecret()}), function (req, res) {
 						}
 					}
 
-					relevantSubtitles = mapData(relevantSubtitles, videoMetadata.videoId, 'public', 'subtitles');
-					relevantRemarks = mapData(relevantRemarks, videoMetadata.videoId, 'public', 'remarks');
-					privateRelevantSubtitles = mapData(privateRelevantSubtitles, videoMetadata.videoId, 'private', 'subtitles');
-					privateRelevantRemarks = mapData(privateRelevantRemarks, videoMetadata.videoId, 'private', 'remarks');
+					relevantSubtitles = relevantSubtitles ? mapData(relevantSubtitles, videoMetadata.videoId, 'public', 'subtitles') : [];
+					relevantRemarks = relevantRemarks ? mapData(relevantRemarks, videoMetadata.videoId, 'public', 'remarks') : [];
+					privateRelevantSubtitles = privateRelevantSubtitles ? mapData(privateRelevantSubtitles, videoMetadata.videoId, 'private', 'subtitles') : [];
+					privateRelevantRemarks = privateRelevantRemarks ? mapData(privateRelevantRemarks, videoMetadata.videoId, 'private', 'remarks') : [];
 
 					searchResults = searchResults.concat(relevantSubtitles, relevantRemarks, privateRelevantSubtitles, privateRelevantRemarks);
 				});

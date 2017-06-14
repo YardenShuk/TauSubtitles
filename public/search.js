@@ -3,12 +3,27 @@ var app = angular.module('Tau-Search', ['ngAnimate', 'ui.bootstrap']);
 
 //TOM: init the scope
 app.controller('searchFormController', function subtitleTableController($scope, $http, $location, $interval) {
+	$scope.getQueryVariable = function (variable) {
+		var query = window.location.search.substring(1);
+		var vars = query.split('&');
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split('=');
+			if (decodeURIComponent(pair[0]) == variable) {
+				return decodeURIComponent(pair[1]);
+			}
+		}
+	};
+
+	$("#search-form").submit(function (e) {
+		e.preventDefault();
+	});
+
 	$scope.searchResults = [];
 	$scope.fileType = '';
 	$scope.publicity = '';
 	$scope.searchText = '';
-	$scope.token = $scope.getQueryVariable("token");
-	$http.defaults.headers.common['Authorization'] = "Bearer " + $scope.token;
+	$scope.token = $scope.getQueryVariable('token');
+	$http.defaults.headers.common['Authorization'] = 'Bearer ' + $scope.token;
 
 	$scope.search = function () {
 		if (!$scope.searchText) {
