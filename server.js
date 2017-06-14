@@ -7,7 +7,7 @@ var jwt_sign = require('jsonwebtoken');
 
 var https = require('https');
 var http = require('http');
-// TODO: BAR -> Fix ../etc...
+// TODO: JORDAN -> Fix ../etc...
 var privateKey = fs.readFileSync('./../../../etc/pki/tls/private/localhost.key', 'utf8');
 var certificate = fs.readFileSync('./../../../etc/pki/tls/certs/localhost.crt', 'utf8');
 var cauth = fs.readFileSync('./../../../etc/pki/tls/certs/ca-bundle.trust.crt', 'utf8');
@@ -177,16 +177,16 @@ app.post('/api/auth', function (req, res) {
 
 //TOM: Handle the saving of a subtitle file.
 
-// TODO: BAR -> return the jwt secret!
-// appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function (req, res) {
-appHttp.post('/api/saveSrtFileForUser', function (req, res) {
-	var userId = 'userrr';
+// TODO: JORDAN -> return the jwt secret!
+appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function (req, res) {
+//appHttp.post('/api/saveSrtFileForUser', function (req, res) {
+	//var userId = 'userrr';
 
-	// TODO: BAR -> return those lines (when using prod env.)
-	// console.log("userId: " + req.user.userId);
-	// var userId = req.user.userId;
+	// TODO: JORDAN -> return those lines (when using prod env.)
+	console.log("userId: " + req.user.userId);
+	var userId = req.user.userId;
 
-	// BAR - some new flags of private and file type (and saving them accordingly
+	// JORDAN - some new flags of private and file type (and saving them accordingly
 	var isPrivate = req.body.private;
 	var fileType = req.body.fileType;
 	var privateDirectory = isPrivate ? userId : '';
@@ -254,7 +254,7 @@ appHttp.post('/api/saveSrtFileForUser', function (req, res) {
 				});
 			});
 
-			// BAR - added latest srt file and not just chapters like there was before.
+			// JORDAN - added latest srt file and not just chapters like there was before.
 			fs.createFile(latestSrtFilePath, function (err) {
 				fs.writeFile(latestSrtFilePath, generateSrtFile(subObjWithCredits, false), function (err) {
 					if (err) {
@@ -376,12 +376,12 @@ appHttp.get('/api/test_subtitles', function (req, res) {
 });
 
 appHttp.get('/api/test_video/user', function (req, res) {
-	// TODO: BAR -> Change to req.user.userId
-	res.send({userId: 'userrr'});
-	// res.send({userId: req.user.userId});
+	// TODO: JORDAN -> Change to req.user.userId
+	//res.send({userId: 'userrr'});
+	res.send({userId: req.user.userId});
 });
 
-// BAR - new API call - returns the metadata from the DB (you can see the data on Videos.json
+// JORDAN - new API call - returns the metadata from the DB (you can see the data on Videos.json
 appHttp.get('/api/test_video/metadata/:videoId', function (req, res) {
 	var videosJsonPath = __dirname + '/DB/Videos.json';
 
@@ -390,22 +390,22 @@ appHttp.get('/api/test_video/metadata/:videoId', function (req, res) {
 			videoMetadata: jsonObj.find(function (videoMetadata) {
 				return videoMetadata.videoId === req.params.videoId;
 			}),
-			// TODO: BAR -> Change to req.user.userId (When integrating to real env.)
-			userId: 'userrr'
-			// userId: req.user.userId
+			// TODO: JORDAN -> Change to req.user.userId (When integrating to real env.)
+			//userId: 'userrr'
+			 userId: req.user.userId
 		});
 	});
 });
 
-// BAR - new API call - setting new metadata on save. Saved by a few flags - private and fileType.
+// JORDAN - new API call - setting new metadata on save. Saved by a few flags - private and fileType.
 appHttp.post('/api/test_video/metadata/:videoId', function (req, res) {
 	var keyToUpdate = req.body.key;
 	var value = req.body.value;
 	var isPrivate = req.body.private;
 
-	// TODO: BAR -> Change to req.user.userId (When integrating to real env.)
-	var userId = 'userrr';
-	// var userId = req.user.userId;
+	// TODO: JORDAN -> Change to req.user.userId (When integrating to real env.)
+	//var userId = 'userrr';
+	 var userId = req.user.userId;
 
 	var videosJsonPath = __dirname + '\\DB\\Videos.json';
 
@@ -442,7 +442,7 @@ appHttp.post('/api/test_video/metadata/:videoId', function (req, res) {
 	});
 });
 
-// BAR - search api - getting all search results, by flags, etc...
+// JORDAN - search api - getting all search results, by flags, etc...
 appHttp.post('/api/search', function (req, res) {
 	var searchText = req.body.searchText;
 	var fileType = req.body.fileType;
@@ -455,9 +455,9 @@ appHttp.post('/api/search', function (req, res) {
 		res.status(400).send('File type should be sent as \'subtitles\' or \'remarks\' or not sent at all');
 	} else {
 
-		// TODO: BAR -> Change to req.user.userId (When integrating to real env.)
-		var userId = 'userrr';
-		// var userId = req.user.userId;
+		// TODO: JORDAN -> Change to req.user.userId (When integrating to real env.)
+		//var userId = 'userrr';
+		 var userId = req.user.userId;
 
 		var videosJsonPath = __dirname + '\\DB\\Videos.json';
 
@@ -564,8 +564,8 @@ appHttp.post('/api/search', function (req, res) {
 });
 
 // listen (start app with node server.js) ======================================
-portHttps = 443;
-portHttp = 80;
+portHttps = 9443;
+portHttp = 9080;
 
 https.createServer(credentials, app).listen(portHttps);
 console.log("HTTPS App listening on port " + portHttps);

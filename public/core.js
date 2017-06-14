@@ -91,15 +91,15 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 
 	// $scope.searchSub = '';
 
-	// BAR - showing color of the subtitles/remarks title
+	// JORDAN - showing color of the subtitles/remarks title
 	$scope.publicityBgColor = {
 		backgroundColor: 'green'
 	};
 
-	// BAR - a boolean that makes the decision of the array to show - subtitles/remarks
+	// JORDAN - a boolean that makes the decision of the array to show - subtitles/remarks
 	$scope.showingRemarks = false;
 
-	// BAR - update latest works with a new API call - /api/test_video/metadata/:videoId . It gets all the data from the DB
+	// JORDAN - update latest works with a new API call - /api/test_video/metadata/:videoId . It gets all the data from the DB
 	$scope.updateLatest = function () {
 		$http.get('/api/test_video/metadata/' + $scope.videoId).then(function (response) {
 			$scope.videoMetadata = response.data.videoMetadata;
@@ -112,7 +112,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 				};
 			}
 
-			// BAR - we basically have 4 arrays for 4 situations - remarks/subtitles/public/private
+			// JORDAN - we basically have 4 arrays for 4 situations - remarks/subtitles/public/private
 			$scope.subtitles = $scope.videoMetadata.subtitles ? $scope.videoMetadata.subtitles : [];
 			$scope.remarks = $scope.videoMetadata.remarks ? $scope.videoMetadata.remarks : [];
 
@@ -126,7 +126,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 				$scope.privateremarks = [];
 			}
 
-			// BAR - same calls as before.
+			// JORDAN - same calls as before.
 			if ($scope.invalidSub != undefined) {
 				$scope[getSubtitlesType()].splice(0, 0, $scope.invalidSub);
 				$scope.remarks.splice(0, 0, $scope.invalidSub);
@@ -168,7 +168,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 		// });
 	};
 
-	// BAR - changing the view of the 4 arrays by remarks/subtitles
+	// JORDAN - changing the view of the 4 arrays by remarks/subtitles
 	$scope.changeView = function () {
 		$scope.showingRemarks = !$scope.showingRemarks;
 
@@ -177,14 +177,14 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 		}
 	};
 
-	// BAR - changing the view of the 4 arrays by publicity
+	// JORDAN - changing the view of the 4 arrays by publicity
 	$scope.changePublicity = function () {
 		if ($scope[getSubtitlesType()].length === 0) {
 			$scope.addRow();
 		}
 	};
 
-	// BAR - a function that allows us to vote - it disables the other butto on vote, etc...
+	// JORDAN - a function that allows us to vote - it disables the other butto on vote, etc...
 	$scope.vote = function (voteScore, subtitle, id) {
 		var buttons = $('.' + getSubtitlesType() + '-vote-buttons-' + id);
 
@@ -294,8 +294,9 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 				// $scope.userEmail = data.mail;
 				// $scope.userFullName = data.fullName;
 				// $http.defaults.headers.post.Authorization = "Bearer " + data.token;
-
-				window.location = "http://lool.tau.ac.il/subtitle.html?token=" + data.token + "&id=" + _videoId;
+				//TODO: JORDAN: return this line to be with lool instead of looldev
+				window.location = "http://looldev.tau.ac.il/subtitle.html?token=" + data.token + "&id=" + _videoId;
+				//window.location = "http://lool.tau.ac.il/subtitle.html?token=" + data.token + "&id=" + _videoId;
 			} else {
 				$scope.failedToAuthenticate = true;
 			}
@@ -315,7 +316,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 
 	//TOM: Press enter
 	$scope.addRow = function (i, position, lastWordSplitted) {
-		// BAR - added some check of an empty array. I'd like to add an empty row in a situation like this
+		// JORDAN - added some check of an empty array. I'd like to add an empty row in a situation like this
 		var currentFileType = getSubtitlesType();
 
 		if ($scope[currentFileType].length === 0) {
@@ -375,7 +376,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 	// 	alert("publicity:");
 	// }
 
-	// BAR - we are working with a kind of JSON DB now, so it saves all the data on Save press.
+	// JORDAN - we are working with a kind of JSON DB now, so it saves all the data on Save press.
 	$scope.saveToDB = function () {
 		var isPrivate = $scope.publicity.val === 'private';
 
@@ -393,7 +394,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 		});
 	};
 
-	// BAR - kind of the most important function here. It let's me call the 4 arrays - subtitles/remakrs/public/private
+	// JORDAN - kind of the most important function here. It let's me call the 4 arrays - subtitles/remakrs/public/private
 	// super dynamically so I didn't really need to break anything or add any 'if's.
 	function getSubtitlesType() {
 		return ($scope.publicity.val === 'private' ? 'private' : '') + $scope.filetype.val.toLowerCase()
@@ -588,7 +589,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 		});
 	};
 
-	// BAR - not really necessary but as I started with it and we decided to have some POC code, it stays.
+	// JORDAN - not really necessary but as I started with it and we decided to have some POC code, it stays.
 	$scope.sortRemarks = function (backwards) {
 		// Sorting so that latest subtitle is the highest one, for user convinience
 		$scope[getSubtitlesType()].sort(function (a, b) {
