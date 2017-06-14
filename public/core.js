@@ -286,8 +286,8 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 	$scope.tryToAuthenticate = function (_videoId) {
 		var data = {userId: $scope.userId, userPass: $scope.userPass};
 
-		window.location = "http://localhost/subtitle.html?token=blablabla&id=blablabla";// TODO: remove this line
-		$http.post("/api/auth", data).success(function (data, status) {
+		// window.location = "http://localhost/subtitle.html?token=blablabla&id=blablabla";// TODO: remove this line
+		$http.post("/api/auth/", data).success(function (data, status) {
 			$scope.userPass = "";
 			if (data.auth) {
 				// $scope.authenticated = data.auth;
