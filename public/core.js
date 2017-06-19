@@ -225,7 +225,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 	$scope.userFullName = "";
 	$scope.userEmail = "";
 	$scope.videoId = $scope.getQueryVariable("id");
-	$scope.userId = getQueryVariable("user");
+	$scope.userId = $scope.getQueryVariable("user");
 	$scope.token = $scope.getQueryVariable("token");
 	$http.defaults.headers.common['Authorization'] = "Bearer " + $scope.token;
 	$scope.authenticated = false;

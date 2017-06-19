@@ -536,6 +536,18 @@
 					if (jwplayer().getRenderingMode() == "flash") {
 						return;
 					}
+
+					var startTime = window.getQueryVariable('startTime');
+
+					if (startTime) {
+						var seekToStartTime = function () {
+							jwplayer().seek(startTime);
+							jwplayer().off('play', seekToStartTime);
+						};
+
+						jwplayer().on('play', seekToStartTime);
+						jwplayer().play(true);
+					}
 				});
 			}
 		}
