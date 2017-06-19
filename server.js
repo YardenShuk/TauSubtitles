@@ -421,7 +421,7 @@ appHttp.post('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}),
 
 		if (foundIndex === undefined) {
 			foundIndex = jsonObj.length;
-			jsonObj.push({});
+			jsonObj.push({videoId: req.params.videoId});
 		}
 
 		if (isPrivate) {
