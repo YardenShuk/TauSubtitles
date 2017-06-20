@@ -76,16 +76,16 @@ client.bind("cn=videosubtitles,ou=appusers,o=tau", 'akdhgfhsiowh24jsg', function
 
 app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
 app.use(morgan('dev'));                                         // log every request to the console
-app.use(bodyParser.urlencoded({'extended': 'true'}));            // parse application/x-www-form-urlencoded
-app.use(bodyParser.json());                                     // parse application/json
-app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse application/vnd.api+json as json
+app.use(bodyParser.urlencoded({'extended': 'true', limit: '50mb'}));            // parse application/x-www-form-urlencoded
+app.use(bodyParser.json({limit: '50mb'}));                                     // parse application/json
+app.use(bodyParser.json({type: 'application/vnd.api+json', limit: '50mb'})); // parse application/vnd.api+json as json
 app.use(methodOverride());
 
 appHttp.use(express.static(__dirname + '/public'));
 appHttp.use(morgan('dev'));                                         // log every request to the console
-appHttp.use(bodyParser.urlencoded({'extended': 'true'}));            // parse application/x-www-form-urlencoded
-appHttp.use(bodyParser.json());                                     // parse application/json
-appHttp.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse application/vnd.api+json as json
+appHttp.use(bodyParser.urlencoded({'extended': 'true', limit: '50mb'}));            // parse application/x-www-form-urlencoded
+appHttp.use(bodyParser.json({limit: '50mb'}));                                     // parse application/json
+appHttp.use(bodyParser.json({type: 'application/vnd.api+json', limit: '50mb'})); // parse application/vnd.api+json as json
 appHttp.use(methodOverride());
 
 // define model =================
@@ -386,7 +386,7 @@ appHttp.get('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}), 
 	var videosJsonPath = __dirname + '/DB/Videos.json';
 
 	fs.readJson(videosJsonPath, function (err, jsonObj) {
-		res.send({
+		res.json({
 			videoMetadata: jsonObj.find(function (videoMetadata) {
 				return videoMetadata.videoId === req.params.videoId;
 			}),
