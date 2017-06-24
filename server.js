@@ -95,6 +95,8 @@ var Subtitles = mongoose.model('Subtitles', {
 
 // routes ======================================================================
 
+// TODO: JORDAN - prod -> req.user.userId
+
 //TOM: Handle user authentication
 // // api ---------------------------------------------------------------------
 app.post('/api/auth', function (req, res) {
@@ -180,9 +182,7 @@ app.post('/api/auth', function (req, res) {
 // TODO: JORDAN -> return the jwt secret!
 appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function (req, res) {
 //appHttp.post('/api/saveSrtFileForUser', function (req, res) {
-	//var userId = 'userrr';
 
-	// TODO: JORDAN -> return those lines (when using prod env.)
 	console.log("userId: " + req.user.userId);
 	var userId = req.user.userId;
 
@@ -382,8 +382,6 @@ appHttp.get('/api/test_subtitles', function (req, res) {
 
 appHttp.get('/api/test_video/user', jwt({secret: getJWTSecret()}), function (req, res) {
 // appHttp.get('/api/test_video/user', function (req, res) {
-	// TODO: JORDAN -> Change to 'userrr
-	//res.send({userId: req.user.userId});
 	res.send({userId: req.user.userId});
 });
 
@@ -397,8 +395,6 @@ appHttp.get('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}), 
 			videoMetadata: jsonObj.find(function (videoMetadata) {
 				return videoMetadata.videoId === req.params.videoId;
 			}),
-			// TODO: JORDAN -> Change to 'userrr (When integrating to real env.)
-			//userId: req.user.userId
 			userId: req.user.userId
 		});
 	});
@@ -411,8 +407,6 @@ appHttp.post('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}),
 	var value = req.body.value;
 	var isPrivate = req.body.private;
 
-	// TODO: JORDAN -> Change to 'userrr (When integrating to real env.)
-	//var userId = 'userrr';
 	var userId = req.user.userId;
 
 	var videosJsonPath = __dirname + '/DB/Videos.json';
@@ -464,8 +458,6 @@ appHttp.post('/api/search', jwt({secret: getJWTSecret()}), function (req, res) {
 		res.status(400).send('File type should be sent as \'subtitles\' or \'remarks\' or not sent at all');
 	} else {
 
-		// TODO: JORDAN -> Change to 'userrr (When integrating to real env.)
-		//var userId = 'userrr';
 		var userId = req.user.userId;
 
 		var videosJsonPath = __dirname + '/DB/Videos.json';
