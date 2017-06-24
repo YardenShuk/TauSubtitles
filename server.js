@@ -294,8 +294,13 @@ appHttp.post('/api/saveSrtFileForUser', function (req, res) {
 
 //TOM: user download subtitle file
 
-appHttp.get('/api/getLatestSubtitles/:hashCode', function (req, res) {
+appHttp.get('/api/getLatestSubtitles/:videoId/:hashCode/:isPrivate', function (req, res) {
+	var videoId = req.params.videoId;
 	var hashCode = req.params.hashCode;
+	var isPrivate = req.params.isPrivate === 'true';
+
+	var userPath = isPrivate ? 'userrr' + '/' : '';
+
 	var fileName;
 
 	if (hashCode.endsWith("_plain")) {
@@ -307,7 +312,7 @@ appHttp.get('/api/getLatestSubtitles/:hashCode', function (req, res) {
 
 	console.log("Got a download request to retreive srt\\text for hashCode: " + hashCode);
 
-	var filePath = latestHashFolder + fileName;
+	var filePath = latestHashFolder + videoId + '/' + userPath + fileName;
 
 	if (!fileExists(filePath)) {
 		console.log('file does not exist');

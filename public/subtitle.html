@@ -107,8 +107,8 @@
 					<button class="btn btn-primary" ng-click="keyPressedFromTextBox(0,4)" ng-if="!fromSearch">Save</button>
 				</div>
 				<div class="col-md-10 padding-up-down" ng-show="latestHash.length > 0" ng-if="!fromSearch">
-					Your Hash Is: {{latestHash}} - <a href="/api/getLatestSubtitles/{{latestHash}}">Download Srt</a>
-					<a href="/api/getLatestSubtitles/{{latestHash}}_plain">Download Plain txt</a>
+					Your Hash Is: {{latestHash}} - <a href="/api/getLatestSubtitles/{{videoId}}/{{latestHash}}/{{$scope.publicity.val === 'private'}}">Download Srt</a>
+					<a href="/api/getLatestSubtitles/{{videoId}}/{{latestHash}}_plain/{{$scope.publicity.val === 'private'}}">Download Plain txt</a>
 				</div>
 				<div class="alert alert-info padding-left-right padding-up-down" ng-if="!fromSearch"><p>
 					<table>
