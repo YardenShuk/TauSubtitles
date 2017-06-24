@@ -226,19 +226,26 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 	$scope.userEmail = "";
 	$scope.videoId = $scope.getQueryVariable("id");
 	$scope.userId = $scope.getQueryVariable("user");
+	$scope.fromSearch = $scope.getQueryVariable("fromSearch");
 	$scope.token = $scope.getQueryVariable("token");
+
 	$http.defaults.headers.common['Authorization'] = "Bearer " + $scope.token;
+
 	$scope.authenticated = false;
 	$scope.failedToAuthenticate = false;
-
 	$scope.subtitles = [];
+
 	$scope.privatesubtitles = [];
 	$scope.remarks = [];
 	$scope.privateremarks = [];
-
 	$scope.loop = false;
 
 	$scope.deletedIds = {};
+
+	$scope.editMode = function () {
+		$scope.fromSearch = false
+	};
+
 	$scope.addedIds = {};
 	$scope.editedIds = {};
 
@@ -664,6 +671,12 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 
 		if (sub.startTime >= sub.endTime) {
 			return "Start Time >= End Time";
+		}
+
+		// JORDEN - Checking whether a subtitle / remark is longer than 10 sec.
+		if (sub.endTime - sub.startTime > 10) {
+			sub.startTime = sub.endTime - 10;
+			$scope.addAlertMessage("The added subtitle was too long, shortened to 10 seconds", 'warning');
 		}
 
 		return "";

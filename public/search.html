@@ -98,7 +98,7 @@
 				<tr ng-repeat="searchResult in searchResults track by $index">
 					<td>{{$index + 1}}</td>
 					<td>
-						<a href="/subtitle.html?token={{token}}&id={{searchResult.videoId}}&startTime={{searchResult.startTime}}">
+						<a href="/subtitle.html?token={{token}}&id={{searchResult.videoId}}&startTime={{searchResult.startTime}}&fromSearch=true">
 							{{searchResult.videoId}}
 						</a>
 					</td>

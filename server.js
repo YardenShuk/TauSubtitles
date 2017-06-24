@@ -178,13 +178,14 @@ app.post('/api/auth', function (req, res) {
 //TOM: Handle the saving of a subtitle file.
 
 // TODO: JORDAN -> return the jwt secret!
-appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function (req, res) {
+// appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function (req, res) {
+appHttp.post('/api/saveSrtFileForUser', function (req, res) {
 //appHttp.post('/api/saveSrtFileForUser', function (req, res) {
 	//var userId = 'userrr';
 
 	// TODO: JORDAN -> return those lines (when using prod env.)
-	console.log("userId: " + req.user.userId);
-	var userId = req.user.userId;
+	console.log("userId: " + 'userrr');
+	var userId = 'userrr';
 
 	// JORDAN - some new flags of private and file type (and saving them accordingly
 	var isPrivate = req.body.private;
@@ -375,14 +376,16 @@ appHttp.get('/api/test_subtitles', function (req, res) {
 	});
 });
 
-appHttp.get('/api/test_video/user', jwt({secret: getJWTSecret()}), function (req, res) {
-	// TODO: JORDAN -> Change to req.user.userId
+// appHttp.get('/api/test_video/user', jwt({secret: getJWTSecret()}), function (req, res) {
+appHttp.get('/api/test_video/user', function (req, res) {
+	// TODO: JORDAN -> Change to 'userrr
 	//res.send({userId: 'userrr'});
-	res.send({userId: req.user.userId});
+	res.send({userId: 'userrr'});
 });
 
 // JORDAN - new API call - returns the metadata from the DB (you can see the data on Videos.json
-appHttp.get('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}), function (req, res) {
+// appHttp.get('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}), function (req, res) {
+appHttp.get('/api/test_video/metadata/:videoId', function (req, res) {
 	var videosJsonPath = __dirname + '/DB/Videos.json';
 
 	fs.readJson(videosJsonPath, function (err, jsonObj) {
@@ -390,22 +393,23 @@ appHttp.get('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}), 
 			videoMetadata: jsonObj.find(function (videoMetadata) {
 				return videoMetadata.videoId === req.params.videoId;
 			}),
-			// TODO: JORDAN -> Change to req.user.userId (When integrating to real env.)
+			// TODO: JORDAN -> Change to 'userrr (When integrating to real env.)
 			//userId: 'userrr'
-			userId: req.user.userId
+			userId: 'userrr'
 		});
 	});
 });
 
 // JORDAN - new API call - setting new metadata on save. Saved by a few flags - private and fileType.
-appHttp.post('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}), function (req, res) {
+// appHttp.post('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}), function (req, res) {
+appHttp.post('/api/test_video/metadata/:videoId', function (req, res) {
 	var keyToUpdate = req.body.key;
 	var value = req.body.value;
 	var isPrivate = req.body.private;
 
-	// TODO: JORDAN -> Change to req.user.userId (When integrating to real env.)
+	// TODO: JORDAN -> Change to 'userrr (When integrating to real env.)
 	//var userId = 'userrr';
-	var userId = req.user.userId;
+	var userId = 'userrr';
 
 	var videosJsonPath = __dirname + '/DB/Videos.json';
 
@@ -443,7 +447,8 @@ appHttp.post('/api/test_video/metadata/:videoId', jwt({secret: getJWTSecret()}),
 });
 
 // JORDAN - search api - getting all search results, by flags, etc...
-appHttp.post('/api/search', jwt({secret: getJWTSecret()}), function (req, res) {
+// appHttp.post('/api/search', jwt({secret: getJWTSecret()}), function (req, res) {
+appHttp.post('/api/search', function (req, res) {
 	var searchText = req.body.searchText;
 	var fileType = req.body.fileType;
 	var publicity = req.body.publicity ? req.body.publicity : 'any';
@@ -455,9 +460,9 @@ appHttp.post('/api/search', jwt({secret: getJWTSecret()}), function (req, res) {
 		res.status(400).send('File type should be sent as \'subtitles\' or \'remarks\' or not sent at all');
 	} else {
 
-		// TODO: JORDAN -> Change to req.user.userId (When integrating to real env.)
+		// TODO: JORDAN -> Change to 'userrr (When integrating to real env.)
 		//var userId = 'userrr';
-		var userId = req.user.userId;
+		var userId = 'userrr';
 
 		var videosJsonPath = __dirname + '/DB/Videos.json';
 
