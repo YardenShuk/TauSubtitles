@@ -65,7 +65,8 @@
 
 	<div class="container-fluid">
 		<div class="row" ng-class="fromSearch ? '' : 'full-height'"> <!-- Open Row #1 -->
-			<div class="video-padding-top" ng-class="fromSearch ? 'col-md-8 align-to-center' : 'col-md-4'"> <!-- Video Player Col -->
+			<div class="video-padding-top" ng-class="fromSearch ? 'col-md-8 align-to-center' : 'col-md-4'">
+				<!-- Video Player Col -->
 				<div id="videoFrame" title="TAU Webcast video player" class="my-align-center full-width">
 					<a href="rtsp://vod.tau.ac.il:80/Courses/_definst_/mp4:0111/1216/0111121601-20152-12179.mp4">
 						<img src='./Content/Img/filmPlaceHolder.jpg'>
@@ -76,7 +77,8 @@
 				</div>
 
 
-				<select ng-change="changeView()" ng-model="filetype.val" name="dropdown_subtype" class="view-change" ng-if="!fromSearch">
+				<select ng-change="changeView()" ng-model="filetype.val" name="dropdown_subtype" class="view-change"
+				        ng-if="!fromSearch">
 					<option value="subtitles">Subtitles</option>
 					<option value="remarks">Remarks</option>
 				</select>
@@ -90,7 +92,8 @@
 
 				<div class="search-redirect">
 					<a ng-click="redirectToSearch()">
-						<button class="button btn btn-success pull-right"><span style="color:darkred" ng-if="!fromSearch">New!</span> Search
+						<button class="button btn btn-success pull-right"><span style="color:darkred"
+						                                                        ng-if="!fromSearch">New!</span> Search
 							Everywhere
 						</button>
 					</a>
@@ -104,10 +107,12 @@
 				</div>
 
 				<div class="padding-left-right padding-up-down">
-					<button class="btn btn-primary" ng-click="keyPressedFromTextBox(0,4)" ng-if="!fromSearch">Save</button>
+					<button class="btn btn-primary" ng-click="keyPressedFromTextBox(0,4)" ng-if="!fromSearch">Save
+					</button>
 				</div>
 				<div class="col-md-10 padding-up-down" ng-show="latestHash.length > 0" ng-if="!fromSearch">
-					Your Hash Is: {{latestHash}} - <a href="/api/getLatestSubtitles/{{videoId}}/{{latestHash}}/{{$scope.publicity.val === 'private'}}">Download Srt</a>
+					Your Hash Is: {{latestHash}} - <a
+						href="/api/getLatestSubtitles/{{videoId}}/{{latestHash}}/{{$scope.publicity.val === 'private'}}">Download Srt</a>
 					<a href="/api/getLatestSubtitles/{{videoId}}/{{latestHash}}_plain/{{$scope.publicity.val === 'private'}}">Download Plain txt</a>
 				</div>
 				<div class="alert alert-info padding-left-right padding-up-down" ng-if="!fromSearch"><p>
@@ -440,7 +445,13 @@
 			var rtmpUrl = "rtmp" + videoUrl + "playlist.m3u8";
 			var httpUrl1 = "http" + videoUrl + "manifest.mpd";
 			var httpUrl2 = "http" + videoUrl + "playlist.m3u8";
-			var chaptersStr = '/main/FinalProject/public/Chapters/' + videoId + '/latestChapter.srt';
+			var chapters = [
+				null,
+				'/main/FinalProject/public/Chapters/' + videoId + '/latestChapter.srt',
+				'/main/FinalProject/public/Chapters/' + videoId + '/latestChapter-remarks.srt',
+				'/main/FinalProject/public/Chapters/' + videoId + '/' + userId + '/latestChapter.srt',
+				'/main/FinalProject/public/Chapters/' + videoId + '/' + userId + '/latestChapter-remarks.srt'
+			];
 
 			if (navigator.userAgent.match(/android/i) != null) {
 				playerInstance.setup({
@@ -481,15 +492,14 @@
 						}, {
 							file: './SubtitlesRoot/hash/' + videoId + '/' + userId + '/latest-remarks.srt',
 							label: 'private-remarks'
-						}, {
-							file: chaptersStr,
-							kind: 'chapters'
 						}],
 						autostart: 'false'
 					}],
 					width: "100%",
 					aspectratio: "16:9"
 				});
+
+				jwplayer().setCurrentCaptions(1);
 
 				jQuery('.reloadMovie').on('click', function () {
 					playerInstance.remove();
@@ -511,8 +521,37 @@
 				});
 
 				jwplayer().on('captionsChanged', function (currentTrack) {
-					console.log(currentTrack);
-					console.log(jwplayer().getCaptionsList());
+					var playerPosition = jwplayer().getPosition();
+
+					jwplayer().load({
+						file: httpUrl1,
+						image: imageUrl,
+						tracks: [{
+							file: './SubtitlesRoot/hash/' + videoId + '/latest.srt',
+							label: 'public-subtitles'
+						}, {
+							file: './SubtitlesRoot/hash/' + videoId + '/latest-remarks.srt',
+							label: 'public-remarks'
+						}, {
+							file: './SubtitlesRoot/hash/' + videoId + '/' + userId + '/latest.srt',
+							label: 'private-subtitles'
+						}, {
+							file: './SubtitlesRoot/hash/' + videoId + '/' + userId + '/latest-remarks.srt',
+							label: 'private-remarks'
+						}, {
+							file: chapters[currentTrack.track],
+							kind: 'chapters'
+						}],
+						autostart: 'false'
+					});
+
+					var seekToStartTime = function () {
+						jwplayer().seek(playerPosition);
+						jwplayer().off('play', seekToStartTime);
+					};
+
+					jwplayer().on('play', seekToStartTime);
+					jwplayer().play(true);
 				});
 
 				function videoReloadOnViewChange() {
