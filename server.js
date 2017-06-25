@@ -203,9 +203,9 @@ appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function 
 	var latestJsonFilePath = path.join(gitVideoDir, privateDirectory, videoId + fileExtension + "_latest.json");
 	var creditsFilePath = path.join(gitVideoDir, privateDirectory, videoId + +fileExtension + "_credits.json");
 	var randString = randomstring.generate(25);
-	var srtFilePath = path.join(latestHashFolder, videoId, privateDirectory, randString + fileExtension + ".srt");
+	var srtFilePath = path.join(latestHashFolder, videoId, randString + ".srt");
 	var latestSrtFilePath = path.join(latestHashFolder, videoId, privateDirectory, 'latest' + fileExtension + ".srt");
-	var txtFilePath = path.join(latestHashFolder, videoId, privateDirectory, randString + fileExtension + "_plain.txt");
+	var txtFilePath = path.join(latestHashFolder, videoId, randString + "_plain.txt");
 	var chapterFilePath = path.join(publicChaptersDir + videoId, privateDirectory, "latestChapter" + fileExtension + ".srt");
 
 	var subObj = mergeSubsToObject(req, latestJsonFilePath);
@@ -293,12 +293,9 @@ appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function 
 
 //TOM: user download subtitle file
 
-appHttp.get('/api/getLatestSubtitles/:videoId/:hashCode/:isPrivate', function (req, res) {
+appHttp.get('/api/getLatestSubtitles/:videoId/:hashCode', function (req, res) {
 	var videoId = req.params.videoId;
 	var hashCode = req.params.hashCode;
-	var isPrivate = req.params.isPrivate === 'true';
-
-	var userPath = isPrivate ? req.user.userId + '/' : '';
 
 	var fileName;
 
@@ -311,7 +308,7 @@ appHttp.get('/api/getLatestSubtitles/:videoId/:hashCode/:isPrivate', function (r
 
 	console.log("Got a download request to retreive srt\\text for hashCode: " + hashCode);
 
-	var filePath = latestHashFolder + videoId + '/' + userPath + fileName;
+	var filePath = latestHashFolder + videoId + '/' + fileName;
 
 	if (!fileExists(filePath)) {
 		console.log('file does not exist');
