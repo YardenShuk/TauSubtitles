@@ -584,9 +584,8 @@
 
 				var trident = !!navigator.userAgent.match(/Trident\/7.0/);
 				var net = !!navigator.userAgent.match(/.NET4.0E/);
-				var IE11 = trident && net;
-				var IEold = ( navigator.userAgent.match(/MSIE/i) ? true : false );
-				var theVideo;
+				IE11 = trident && net;
+				IEold = ( navigator.userAgent.match(/MSIE/i) ? true : false );
 				jwplayer().on('ready', function () {
 					theVideo = document.querySelector('video');
 					theVideo.defaultPlaybackRate = 1.0;
