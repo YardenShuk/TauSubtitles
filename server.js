@@ -201,7 +201,7 @@ appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function 
 	var gitVideoDir = fileSystemDir + getOutputVideoFolder(videoId);
 	var jsonFilePath = path.join(dir, privateDirectory, userId + fileExtension + ".json");
 	var latestJsonFilePath = path.join(gitVideoDir, privateDirectory, videoId + fileExtension + "_latest.json");
-	var creditsFilePath = path.join(gitVideoDir, privateDirectory, videoId + +fileExtension + "_credits.json");
+	var creditsFilePath = path.join(gitVideoDir, privateDirectory, videoId + fileExtension + "_credits.json");
 	var randString = randomstring.generate(25);
 	var srtFilePath = path.join(latestHashFolder, videoId, randString + ".srt");
 	var latestSrtFilePath = path.join(latestHashFolder, videoId, privateDirectory, 'latest' + fileExtension + ".srt");
