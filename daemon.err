@@ -1,0 +1,160 @@
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt malformed
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt malformed
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
+UnauthorizedError: jwt expired
+    at /home/tom/node_modules/express-jwt/lib/index.js:102:22
+    at /home/tom/node_modules/express-jwt/node_modules/jsonwebtoken/verify.js:27:18
+    at nextTickCallbackWith0Args (node.js:420:9)
+    at process._tickCallback (node.js:349:13)
