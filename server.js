@@ -202,11 +202,11 @@ appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function 
 	var gitVideoDir = fileSystemDir + getOutputVideoFolder(videoId);
 	var jsonFilePath = path.join(dir, privateDirectory, userId + fileExtension + ".json");
 	var latestJsonFilePath = path.join(gitVideoDir, privateDirectory, videoId + fileExtension + "_latest.json");
-	var creditsFilePath = path.join(gitVideoDir, privateDirectory, videoId + +fileExtension + "_credits.json");
+	var creditsFilePath = path.join(gitVideoDir, privateDirectory, videoId + fileExtension + "_credits.json");
 	var randString = randomstring.generate(25);
-	var srtFilePath = path.join(latestHashFolder, videoId, randString + ".srt");
+	var srtFilePath = path.join(latestHashFolder, videoId, randString + fileExtension + ".srt");
 	var latestSrtFilePath = path.join(latestHashFolder, videoId, privateDirectory, 'latest' + fileExtension + ".srt");
-	var txtFilePath = path.join(latestHashFolder, videoId, randString + "_plain.txt");
+	var txtFilePath = path.join(latestHashFolder, videoId, randString + "_plain" + fileExtension + ".txt");
 	var chapterFilePath = path.join(publicChaptersDir + videoId, privateDirectory, "latestChapter" + fileExtension + ".srt");
 
 	var subObj = mergeSubsToObject(req, latestJsonFilePath);
@@ -294,17 +294,23 @@ appHttp.post('/api/saveSrtFileForUser', jwt({secret: getJWTSecret()}), function 
 
 //TOM: user download subtitle file
 
-appHttp.get('/api/getLatestSubtitles/:videoId/:hashCode', function (req, res) {
+appHttp.get('/api/getLatestSubtitles/:videoId/:hashCode/:isRemark', function (req, res) {
 	var videoId = req.params.videoId;
 	var hashCode = req.params.hashCode;
+	var isRemark = req.params.isRemark === true || req.params.isRemark === 'true';
+
+	var extension = isRemark ? '-remarks' : '';
 
 	var fileName;
+	var downloadFileName;
 
 	if (hashCode.endsWith("_plain")) {
-		fileName = hashCode + ".txt";
+		fileName = hashCode + extension + ".txt";
+		downloadFileName = videoId + '_plain' + (extension ? extension : '-subtitles') + '.txt';
 	}
 	else {
-		fileName = hashCode + ".srt";
+		fileName = hashCode + extension + ".srt";
+		downloadFileName = videoId + (extension ? extension : '-subtitles') + '.srt';
 	}
 
 	console.log("Got a download request to retreive srt\\text for hashCode: " + hashCode);
@@ -321,7 +327,7 @@ appHttp.get('/api/getLatestSubtitles/:videoId/:hashCode', function (req, res) {
 	// data = fs.readFileSync(latestJsonFilePath);
 	// Subtitles = JSON.parse(data);
 
-	res.setHeader('Content-disposition', 'attachment; filename=' + fileName);
+	res.setHeader('Content-disposition', 'attachment; filename=' + downloadFileName);
 	res.setHeader('Content-type', 'text/srt');
 
 	var filestream = fs.createReadStream(filePath);

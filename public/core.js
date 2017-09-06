@@ -224,6 +224,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 	$scope.userPass = "";
 	$scope.userFullName = "";
 	$scope.userEmail = "";
+	$scope.isLatestHashRemark = false;
 	$scope.videoId = $scope.getQueryVariable("id");
 	$scope.userId = $scope.getQueryVariable("user");
 	$scope.fromSearch = $scope.getQueryVariable("fromSearch");
@@ -581,6 +582,7 @@ app.controller('subtitleTableController', function subtitleTableController($scop
 		$http.post("/api/saveSrtFileForUser", data).success(function (data, status) {
 			$scope.addAlertMessage("File saved.", 'success');
 			$scope.latestHash = data;
+			$scope.isLatestHashRemark = $scope.showingRemarks;
 			$scope.updateLatest();
 
 			$scope.deletedIds = [];
